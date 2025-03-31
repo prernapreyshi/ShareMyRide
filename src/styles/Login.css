@@ -1,0 +1,41 @@
+/* ===== Login & SignUp Page Styles ===== */
+.login-container {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 40px;
+  max-width: 400px;
+  margin: 80px auto;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.login-title {
+  font-size: 26px;
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+/* Buttons */
+.login-btn, .google-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: none;
+  margin-top: 15px;
+}
+
+.login-btn {
+  background: linear-gradient(135deg, var(--secondary-color), var(--button-hover));
+  color: var(--text-color);
+}
+
+.google-btn {
+  background: #f3857b;;
+  color: white;
+}

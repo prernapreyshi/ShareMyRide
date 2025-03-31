@@ -1,0 +1,171 @@
+/* General Container Styling */
+.services-container {
+  text-align: center;
+  padding: 40px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  max-width: 600px;
+  margin: 40px auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.services-container:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Search Box Styling */
+.search-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.input-group {
+  position: relative; /* ✅ Ensures dropdown is positioned correctly */
+  width: 100%;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  outline: none;
+  background-color: #fafafa;
+  color: #333;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+
+.search-box input:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 12px rgba(0, 123, 255, 0.3);
+  transform: scale(1.02);
+}
+
+/* Suggestions Dropdown */
+.suggestions {
+  position: absolute; /* ✅ Makes sure it appears below the input */
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow-y: auto;
+  max-height: 180px;
+  z-index: 1000; /* ✅ Ensures dropdown appears on top */
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  margin-top: 2px;
+  padding: 0;
+  list-style: none;
+}
+
+.suggestions li {
+  padding: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.suggestions li:hover,
+.suggestions li.active {
+  background-color: var(--accent-color);
+  color: #ffffff;
+}
+
+/* Search Button Styling */
+.search-btn {
+  padding: 14px 24px;
+  font-size: 18px;
+  font-weight: 600;
+  background: var(--accent-color);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 14px rgba(0, 123, 255, 0.2);
+}
+
+.search-btn:hover {
+  background: var(--text-color);
+  color: var(--primary-color);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.3);
+}
+
+.search-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Ride Results Styling */
+.results {
+  margin-top: 28px;
+}
+
+.results h3 {
+  font-size: 22px;
+  margin-bottom: 14px;
+  color: #ffffff;
+}
+
+.results ul {
+  list-style: none;
+  padding: 0;
+}
+
+.results li {
+  background-color: #ffffff;
+  color: #333;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.results li:hover {
+  transform: translateY(-3px);
+  background-color: #f9f9f9;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Error Message Styling */
+.error-message {
+  color: #ff4d4d;
+  background-color: #ffe6e6;
+  padding: 10px;
+  border-radius: 12px;
+  margin-top: -8px;
+  font-size: 15px;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(255, 77, 77, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .services-container {
+    padding: 24px;
+  }
+
+  .search-box input,
+  .search-btn {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .results li {
+    padding: 12px;
+    font-size: 14px;
+  }
+}

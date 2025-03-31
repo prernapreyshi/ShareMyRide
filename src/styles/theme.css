@@ -1,0 +1,79 @@
+/* ===== Color Variables (Dark Modern Theme) ===== */
+:root {
+  --primary-color: #1e1e2f;    /* Dark Navy */
+  --secondary-color: #4a47a3;  /* Deep Purple */
+  --accent-color: #f4a261;     /* Warm Orange */
+  --background-color: #161622; /* Midnight Black */
+  --text-color: #ffffff;       /* Pure White */
+  --button-hover: #6a61f3;     /* Bright Purple */
+}
+
+/* ===== Global Styles ===== */
+body {
+  background: var(--background-color);
+  color: var(--text-color);
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Links ===== */
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--button-hover);
+}
+
+/* ===== Interactive Buttons ===== */
+.btn-primary {
+  background: linear-gradient(135deg, var(--secondary-color), var(--button-hover));
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  color: var(--text-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 15px rgba(74, 71, 163, 0.3);
+}
+
+.btn-primary:hover {
+  background: var(--button-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(74, 71, 163, 0.5);
+}
+
+.btn-primary:active {
+  transform: scale(0.95);
+}
+
+/* Google Button */
+.google-btn {
+  background: #f55e5e;
+  color: var(--text-color);
+  box-shadow: 0 4px 10px rgba(219, 68, 55, 0.4);
+}
+
+.google-btn:hover {
+  background: #c1351d;
+  transform: translateY(-3px);
+}
+
+/* ===== Form Input Fields ===== */
+.input-field {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--secondary-color);
+  color: var(--text-color);
+  padding: 12px;
+  width: 100%;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.input-field:focus {
+  border-color: var(--accent-color);
+  outline: none;
+}

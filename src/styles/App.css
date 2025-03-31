@@ -1,0 +1,95 @@
+/* ===== Global Reset ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===== Full-Screen Fixes ===== */
+body, html {
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+}
+
+/* ===== Override Bootstrap Layout Constraints ===== */
+.container-fluid, .row {
+  width: 100vw !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* Make sure the main content takes the full width */
+.col-md-9 {
+  width: 100vw !important; /* Forces full width */
+  padding: 0 !important;
+}
+
+/* Hide the sidebar by default unless toggled */
+.sidebar {
+  display: none; /* Sidebar hidden initially */
+}
+
+/* Show the sidebar when the class is toggled */
+.show-sidebar {
+  display: block !important;
+  width: 250px; /* Adjust sidebar width */
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background-color: #222; /* Sidebar background */
+  color: white;
+  padding: 20px;
+}
+
+/* Overlay effect when sidebar is open */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: none;
+}
+
+/* When sidebar opens, show the overlay */
+.sidebar-open .sidebar-overlay {
+  display: block;
+}
+
+/* Navbar Styling */
+.top-navbar {
+  background: #1a1a2e;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Navbar Links */
+.navbar-nav .nav-link {
+  color: white !important;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #f7c08a !important;
+}
+
+/* Responsive Design Fixes */
+@media (max-width: 768px) {
+  .col-md-9 {
+    width: 100% !important;
+  }
+
+  .sidebar {
+    width: 100vw !important; /* Sidebar covers full screen on small devices */
+  }
+}
+
+

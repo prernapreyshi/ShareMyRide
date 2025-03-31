@@ -1,0 +1,215 @@
+/* ===== General Styling ===== */
+.about-container {
+    font-family: "Arial", sans-serif;
+    text-align: center;
+    padding: 50px 20px;
+    color: black;
+    background-color: var(--background-color);
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+/* ===== Hero Section ===== */
+.about-hero {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 100px 20px;
+    border-radius: 10px;
+    margin-bottom: 50px;
+    transition: 0.3s ease-in-out;
+}
+
+.about-hero:hover {
+    transform: scale(1.02);
+}
+
+.about-hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.about-hero p {
+    font-size: 1.4rem;
+    line-height: 1.6;
+}
+
+/* ===== Expandable Sections ===== */
+.about-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    text-align: left;
+}
+
+.about-section:hover {
+    transform: scale(1.02);
+    background-color: #f5f5f5;
+}
+
+.about-section h2 {
+    font-size: 2rem;
+    color: black;  /* Updated to black */
+    display: flex;
+    align-items: center;
+}
+
+.about-section p {
+    font-size: 1.2rem;
+    color: black;  /* Ensuring text remains black */
+    margin-top: 10px;
+}
+
+/* ===== Missile Shape Styling for Mission and Vision ===== */
+.missile-section {
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(135deg, #f7a28d, #feb47b); /* Missle-like gradient */
+    color: white;
+    padding: 20px 40px;
+    border-radius: 50px;
+    text-align: center;
+    margin: 20px auto;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+    transform: scale(1);
+    transition: all 0.3s ease-in-out;
+}
+
+.missile-section:hover {
+    transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+/* Adding a rocket-like tail */
+.missile-section::after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 30px solid #b18868; /* Tail color */
+}
+
+.missile-section h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: black; /* Updated to black */
+}
+
+.missile-section p {
+    font-size: 1.2rem;
+    color: black; /* Updated to black */
+}
+
+/* ===== Core Values Section ===== */
+.values-title {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: white;
+    font-weight: bold;
+}
+
+.values-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.value-item {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    text-align: center;
+}
+
+.value-item:hover {
+    transform: scale(1.05);
+}
+
+.value-icon {
+    font-size: 2.5rem;
+    color: black;
+    margin-bottom: 15px;
+}
+
+.value-item h3 {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.value-item p {
+    font-size: 1.1rem;
+    color: black;
+}
+
+/* ===== Call to Action Section ===== */
+.about-cta {
+    margin-top: 80px;
+    background: var(--primary-color);
+    color: white;
+    padding: 50px;
+    border-radius: 10px;
+    text-align: center;
+    transition: 0.3s ease-in-out;
+}
+
+.about-cta:hover {
+    transform: scale(1.02);
+}
+
+.cta-button {
+    background-color: white;
+    color: black;
+    padding: 14px 28px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    border: none;
+    margin-top: 20px;
+}
+
+.cta-button:hover {
+    background-color: var(--secondary-color);
+    color: black;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 1024px) {
+    .values-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .values-list {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .cta-button {
+        font-size: 1.1rem;
+        padding: 12px 24px;
+    }
+}

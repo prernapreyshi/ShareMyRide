@@ -1,0 +1,55 @@
+.top-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--primary-color);
+  padding: 10px 20px;
+  color: var(--text-color);
+}
+
+.navbar-left h1 {
+  cursor: pointer;
+}
+
+.navbar-center a {
+  color: var(--text-color);
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.navbar-center a:hover {
+  color: var(--accent-color);
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.primary-btn,
+.secondary-btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: var(--secondary-color); /* Same background for both */
+  color: var(--text-color); /* Same text color for both */
+  transition: 0.3s;
+}
+
+.primary-btn:hover,
+.secondary-btn:hover {
+  background: var(--accent-color); /* On hover both will have sign-up color */
+  color: var(--primary-color);
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-color);
+}

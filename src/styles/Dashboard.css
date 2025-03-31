@@ -1,0 +1,153 @@
+/* Prevent Double Scrollbar */
+html, body {
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  height: 100vh;
+  background-color: #f5f5f5;
+  overflow: hidden; /* Prevents extra scrollbars */
+}
+
+/* Scrollable Content */
+.main-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: calc(100vh - 100px); /* Adjusted for better layout */
+  width: 100%;
+  padding: 20px 0;
+}
+
+/* Header Section */
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* Ride Requests Section */
+.ride-requests-container {
+  width: 90%;
+  max-width: 1200px;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Ensures proper spacing */
+  gap: 20px;
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+/* Available Ride Requests Header */
+.ride-requests-header {
+  width: 100%;
+  text-align: center;
+  background-color: #7451d5;
+  color: rgb(235, 232, 232);
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 25px; /* More space for visibility */
+  position: sticky;
+  top: 0;
+  z-index: 10; /* Ensures it remains visible */
+}
+
+/* Ride Requests Title */
+.ride-requests-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  width: 100%;
+}
+
+/* Ride Request Cards */
+.ride-request-card {
+  flex: 1 1 calc(50% - 20px); /* Two cards per row */
+  min-width: 320px;
+  padding: 20px;
+  background-color: #f5e8e8;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Hover Effect */
+.ride-request-card:hover {
+  transform: scale(1.02);
+}
+
+/* Buttons */
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.btn-accept,
+.btn-reject {
+  color: rgb(245, 240, 240);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-accept {
+  background-color: #28a745;
+}
+
+.btn-reject {
+  background-color: #dc3545;
+}
+
+.btn-accept:hover {
+  background-color: #218838;
+}
+
+.btn-reject:hover {
+  background-color: #c82333;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .ride-requests-container {
+    justify-content: center;
+  }
+
+  .ride-request-card {
+    flex: 1 1 90%; /* Full width on tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .ride-requests-container {
+    padding: 15px;
+  }
+
+  .ride-request-card {
+    flex: 1 1 100%; /* Full width on mobile */
+  }
+
+  .ride-requests-header {
+    font-size: 1.2rem; /* Smaller header text */
+  }
+}

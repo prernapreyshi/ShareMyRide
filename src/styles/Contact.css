@@ -1,0 +1,47 @@
+.contact-container {
+    max-width: 600px;
+    margin: auto;
+    height: 100vh; /* Ensure it takes the full viewport height */
+    overflow-y: auto; /* Enable scrolling */
+    padding: 20px;
+  }
+  
+  .card {
+    border-radius: 12px;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  
+  .card:hover {
+    transform: scale(1.02);
+  }
+  
+  .form-control, .form-select {
+    border-radius: 8px;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .form-control:focus, .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  .alert-success {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
