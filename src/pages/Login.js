@@ -12,9 +12,14 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useNavigate, Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { auth, db, googleProvider } from "../firebase/firebaseConfig";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+
+// Framer Motion wrapper component
+const MotionBox = motion(Box);
+const MotionButton = motion(Button);
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -23,27 +28,22 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    console.log("Attempting login with:", email, password);
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const uid = userCredential.user.uid;
-      const userDocRef = doc(db, "users", uid);
-      const userDoc = await getDoc(userDocRef);
 
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        const role = userData?.role;
+      await setDoc(doc(db, "users", uid), { role: null }, { merge: true });
 
-        if (!role) {
-          navigate("/select-role");
-        } else {
-          navigate(role === "driver" ? "/driver-dashboard" : "/rider-dashboard");
-        }
-      } else {
-        navigate("/select-role");
-      }
+      toast({
+        title: "Login Successful",
+        description: "Please select your role again.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+
+      navigate("/select-role");
     } catch (err) {
-      console.error("Login error:", err.code, err.message);
       toast({
         title: "Login Failed",
         description: getFriendlyError(err.code),
@@ -58,23 +58,20 @@ const Login = () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      const userDocRef = doc(db, "users", user.uid);
-      const userDoc = await getDoc(userDocRef);
+      const uid = user.uid;
 
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        const role = userData?.role;
+      await setDoc(doc(db, "users", uid), { role: null }, { merge: true });
 
-        if (!role) {
-          navigate("/select-role");
-        } else {
-          navigate(role === "driver" ? "/driver-dashboard" : "/rider-dashboard");
-        }
-      } else {
-        navigate("/select-role");
-      }
+      toast({
+        title: "Google Login Successful",
+        description: "Please select your role again.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+
+      navigate("/select-role");
     } catch (err) {
-      console.error("Google Sign-In error:", err.code, err.message);
       toast({
         title: "Google Sign-In Failed",
         description: getFriendlyError(err.code),
@@ -103,7 +100,10 @@ const Login = () => {
   };
 
   return (
-    <Box
+    <MotionBox
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
       maxW="md"
       mx="auto"
       mt={20}
@@ -135,14 +135,16 @@ const Login = () => {
           />
         </FormControl>
 
-        <Button
+        <MotionButton
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           colorScheme="brand"
           width="full"
           onClick={handleLogin}
           isDisabled={!email || !password}
         >
           Sign In
-        </Button>
+        </MotionButton>
 
         <Text fontSize="sm" textAlign="center" mt={2}>
           Don't have an account?{" "}
@@ -155,7 +157,9 @@ const Login = () => {
           OR
         </Text>
 
-        <Button
+        <MotionButton
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           width="full"
           onClick={handleGoogleLogin}
           bg="red.500"
@@ -163,9 +167,9 @@ const Login = () => {
           _hover={{ bg: "red.600" }}
         >
           Continue with Google
-        </Button>
+        </MotionButton>
       </VStack>
-    </Box>
+    </MotionBox>
   );
 };
 

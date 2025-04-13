@@ -9,7 +9,6 @@ import {
 } from "@chakra-ui/react";
 
 import HeroImage from "../assets/homeTheme.svg";
-import Navbar from "../Components/Navbar";
 import FooterSection from "./FooterSection";
 import ServicesSection from "../Components/ServicesSection";
 import ShowMyRidePage from "../Components/ShowMyRidePage";
@@ -24,8 +23,6 @@ const Home = () => {
 
   return (
     <Box bg="gray.50">
-      <Navbar />
-
       {/* ✅ Hero Section */}
       <Flex
         align="center"
@@ -39,7 +36,7 @@ const Home = () => {
             Make Awesome Travel Easy & Affordable
           </Heading>
           <Text fontSize="lg" mb={6}>
-            Rent or share rides to move from local hosts across the country.
+            Share rides to move from local hosts across the country.
           </Text>
           <Button colorScheme="teal" size="lg" onClick={scrollToRideSection}>
             Get Started
@@ -65,7 +62,7 @@ const Home = () => {
 
       {/* ✅ About Us Section */}
       <Box id="about" py={20} px={{ base: 6, md: 10 }}>
-        <About/>
+        <About />
       </Box>
 
       {/* ✅ Footer as Contact Section */}

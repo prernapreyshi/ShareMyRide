@@ -7,6 +7,27 @@ import {
   Stack,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
+
+// Framer Motion wrappers
+const MotionBox = motion(Box);
+const MotionStack = motion(Stack);
+const MotionInput = motion(Input);
+const MotionButton = motion(Button);
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
 
 const ShowMyRidePage = () => {
   return (
@@ -20,44 +41,54 @@ const ShowMyRidePage = () => {
         Show My Ride
       </Heading>
 
-      <Box
+      <MotionBox
         maxW="3xl"
         mx="auto"
         bg="white"
         p={{ base: 8, md: 12 }}
         borderRadius="xl"
         boxShadow="2xl"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={containerVariants}
       >
-        <Stack spacing={8}>
-          <Input
+        <MotionStack spacing={8} variants={containerVariants}>
+          <MotionInput
             placeholder="From"
             size="lg"
             bg="gray.50"
             _focus={{ borderColor: "teal.500" }}
+            variants={itemVariants}
           />
-          <Input
+          <MotionInput
             placeholder="To"
             size="lg"
             bg="gray.50"
             _focus={{ borderColor: "teal.500" }}
+            variants={itemVariants}
           />
-          <Input
+          <MotionInput
             type="date"
             size="lg"
             bg="gray.50"
             _focus={{ borderColor: "teal.500" }}
+            variants={itemVariants}
           />
-          <Button
+          <MotionButton
             colorScheme="teal"
             size="lg"
             px={10}
             fontWeight="bold"
             alignSelf="flex-start"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            variants={itemVariants}
           >
             Search
-          </Button>
-        </Stack>
-      </Box>
+          </MotionButton>
+        </MotionStack>
+      </MotionBox>
     </Box>
   );
 };

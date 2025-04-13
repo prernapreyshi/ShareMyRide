@@ -3,69 +3,115 @@ import {
   Box,
   Flex,
   VStack,
+  HStack,
   Text,
   Button,
   Avatar,
-  HStack,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useUser } from "../context/UserContext"; // ✅ Correct hook
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/firebaseConfig";
+import {
+  FiHome,
+  FiUser,
+  FiSettings,
+  FiLogOut,
+  FiGrid,
+} from "react-icons/fi";
 
-const DashboardLayout = ({ children }) => {
-  const { user, logoutUser } = useUser(); // ✅ Fixed hook usage
+const SidebarItem = ({ icon, label, onClick, active }) => (
+  <Button
+    leftIcon={icon}
+    variant={active ? "solid" : "ghost"}
+    justifyContent="flex-start"
+    width="100%"
+    onClick={onClick}
+    fontWeight="medium"
+    fontSize="md"
+    colorScheme={active ? "teal" : undefined}
+  >
+    {label}
+  </Button>
+);
+
+const DashboardLayout = ({ children, userInfo, userType = "driver" }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const bg = useColorModeValue("gray.100", "gray.800");
+  const isDriver = userType === "driver";
 
   const handleLogout = async () => {
-    await logoutUser();
+    await signOut(auth);
     navigate("/login");
   };
 
+  const currentPath = location.pathname;
+
   return (
-    <Flex height="100vh">
-      {/* Side Nav */}
-      <VStack
-        bg={useColorModeValue("gray.100", "gray.800")}
+    <Flex minH="100vh">
+      {/* Sidebar */}
+      <Box
+        w={{ base: "full", md: 64 }}
+        bg={bg}
         p={5}
-        spacing={6}
-        w="250px"
-        align="stretch"
-        boxShadow="md"
+        borderRightWidth="1px"
+        boxShadow="lg"
       >
-        <HStack spacing={4}>
-          <Avatar name={user?.displayName || "User"} />
-          <Box>
-            <Text fontWeight="bold">{user?.displayName || "User"}</Text>
-            <Text fontSize="sm" color="gray.500">
-              {user?.email}
-            </Text>
-          </Box>
-        </HStack>
-
-        <Button colorScheme="red" variant="solid" onClick={handleLogout}>
-          Logout
-        </Button>
-      </VStack>
-
-      {/* Main Content Area */}
-      <Box flex="1" overflowY="auto">
-        {/* Top Navbar */}
-        <Flex
-          as="header"
-          bg="brand.400"
-          color="white"
-          p={4}
-          justifyContent="space-between"
-          alignItems="center"
-          boxShadow="sm"
-        >
-          <Text fontSize="xl" fontWeight="bold">
-            ShareMyRide Dashboard
+        <VStack align="start" spacing={4}>
+          <Text fontSize="2xl" fontWeight="bold" mb={4}>
+            ShareMyRide
           </Text>
-        </Flex>
 
-        {/* Main Page Content */}
-        <Box p={6}>{children}</Box>
+          <SidebarItem
+            icon={<FiHome />}
+            label="Home"
+            onClick={() => navigate("/")}
+            active={currentPath === "/"}
+          />
+          <SidebarItem
+            icon={<FiGrid />}
+            label="Dashboard"
+            onClick={() =>
+              navigate(isDriver ? "/driver-dashboard" : "/rider-dashboard")
+            }
+            active={currentPath.includes("-dashboard")}
+          />
+          <SidebarItem
+            icon={<FiUser />}
+            label="User Info"
+            onClick={() => navigate("/edit-profile")}
+            active={currentPath === "/edit-profile"}
+          />
+          <SidebarItem
+            icon={<FiSettings />}
+            label="Settings"
+            onClick={() => navigate("/settings")}
+            active={currentPath === "/settings"}
+          />
+          <SidebarItem
+            icon={<FiLogOut />}
+            label="Logout"
+            onClick={handleLogout}
+            active={false}
+          />
+        </VStack>
+      </Box>
+
+      {/* Main Content */}
+      <Box flex="1" p={6}>
+        <HStack justify="space-between" mb={6}>
+          <Text fontSize="2xl" fontWeight="bold">
+            {isDriver ? "Driver Dashboard" : "Rider Dashboard"}
+          </Text>
+          {userInfo && (
+            <HStack>
+              <Avatar size="sm" name={userInfo.name || "User"} />
+              <Text fontWeight="medium">{userInfo.name || userInfo.email}</Text>
+            </HStack>
+          )}
+        </HStack>
+        {children}
       </Box>
     </Flex>
   );

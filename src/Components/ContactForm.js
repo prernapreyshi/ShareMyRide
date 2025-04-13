@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { sendEmail } from '../api/emailservice'; // 👈 Import the utility
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({

@@ -23,9 +23,13 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { useUser } from "../context/UserContext";
-import DashboardLayout from "../Components/DashboardLayout";
 import RideCard from "../Components/RideCard";
 import { StarIcon } from "@chakra-ui/icons";
+import { motion, AnimatePresence } from "framer-motion";
+
+// Framer Motion Components
+const MotionBox = motion(Box);
+const MotionVStack = motion(VStack);
 
 const RiderDashboard = () => {
   const { user } = useUser();
@@ -120,33 +124,57 @@ const RiderDashboard = () => {
   };
 
   return (
-    <DashboardLayout>
-      <Box>
-        <Heading mb={4}>My Ride Requests</Heading>
+    <MotionBox
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      px={4}
+      py={6}
+    >
+      <Heading mb={4}>My Ride Requests</Heading>
 
-        <Button
-          colorScheme="purple"
-          mb={6}
-          onClick={() => navigate("/request-ride")}
+      <Button
+        colorScheme="purple"
+        mb={6}
+        onClick={() => navigate("/request-ride")}
+        _hover={{ transform: "scale(1.05)" }}
+        transition="all 0.3s ease"
+      >
+        Request a Ride
+      </Button>
+
+      {loading ? (
+        <Center py={10}>
+          <Spinner size="xl" thickness="4px" speed="0.65s" color="purple.500" />
+        </Center>
+      ) : rideRequests.length === 0 ? (
+        <Text>No ride requests found.</Text>
+      ) : (
+        <MotionVStack
+          spacing={5}
+          align="stretch"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            visible: {
+              transition: {
+                staggerChildren: 0.1,
+              },
+            },
+          }}
         >
-          Request a Ride
-        </Button>
-
-        {loading ? (
-          <Center py={10}>
-            <Spinner size="xl" thickness="4px" speed="0.65s" color="purple.500" />
-          </Center>
-        ) : rideRequests.length === 0 ? (
-          <Text>No ride requests found.</Text>
-        ) : (
-          <VStack spacing={5} align="stretch">
+          <AnimatePresence>
             {rideRequests.map((ride) => (
-              <Box
+              <MotionBox
                 key={ride.id}
                 p={4}
                 borderWidth="1px"
                 borderRadius="lg"
                 boxShadow="sm"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4 }}
               >
                 <RideCard ride={ride} isRiderView />
                 <Box mt={2}>
@@ -161,19 +189,27 @@ const RiderDashboard = () => {
                   </Text>
                 </Box>
 
-                {/* Rating + Payment Section */}
                 {ride.status === "completed" && ride.paymentStatus !== "paid" && (
                   <Box mt={4}>
                     <Text fontWeight="bold">Rate Your Driver:</Text>
                     <HStack spacing={1} my={2}>
                       {[1, 2, 3, 4, 5].map((star) => (
-                        <StarIcon
+                        <motion.div
+                          whileTap={{ scale: 0.8 }}
                           key={star}
-                          color="yellow.400"
-                          boxSize={6}
-                          cursor="pointer"
-                          onClick={() => handleRateAndPay(ride.id, star)}
-                        />
+                          style={{ display: "inline-block" }}
+                        >
+                          <StarIcon
+                            color={
+                              ride.rating && ride.rating >= star
+                                ? "yellow.400"
+                                : "gray.300"
+                            }
+                            boxSize={6}
+                            cursor="pointer"
+                            onClick={() => handleRateAndPay(ride.id, star)}
+                          />
+                        </motion.div>
                       ))}
                     </HStack>
                     <Button
@@ -185,21 +221,21 @@ const RiderDashboard = () => {
                   </Box>
                 )}
 
-                {/* Already Paid */}
                 {ride.paymentStatus === "paid" && (
                   <Text mt={3} color="green.500" fontWeight="semibold">
                     ✅ Payment completed & driver rated.
                   </Text>
                 )}
-              </Box>
+              </MotionBox>
             ))}
-          </VStack>
-        )}
-      </Box>
-    </DashboardLayout>
+          </AnimatePresence>
+        </MotionVStack>
+      )}
+    </MotionBox>
   );
 };
 
+// Helpers
 const getStatusColor = (status) => {
   switch (status) {
     case "pending":

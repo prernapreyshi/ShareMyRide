@@ -13,6 +13,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebaseConfig";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { motion } from "framer-motion";
+
+// Motion components
+const MotionBox = motion(Box);
+const MotionButton = motion(Button);
 
 const RiderDetails = () => {
   const [name, setName] = useState("");
@@ -52,22 +57,49 @@ const RiderDetails = () => {
   };
 
   return (
-    <Box maxW="md" mx="auto" mt={10} p={6} borderWidth="1px" borderRadius="lg">
+    <MotionBox
+      maxW="md"
+      mx="auto"
+      mt={10}
+      p={6}
+      borderWidth="1px"
+      borderRadius="lg"
+      boxShadow="lg"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       <Heading mb={4}>Complete Rider Profile</Heading>
       <VStack spacing={4}>
         <FormControl isRequired>
           <FormLabel>Name</FormLabel>
-          <Input value={name} onChange={(e) => setName(e.target.value)} />
+          <Input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            _focus={{ borderColor: "purple.400", boxShadow: "0 0 0 1px #9F7AEA" }}
+            transition="all 0.2s ease-in-out"
+          />
         </FormControl>
         <FormControl isRequired>
           <FormLabel>Phone</FormLabel>
-          <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
+          <Input
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            _focus={{ borderColor: "purple.400", boxShadow: "0 0 0 1px #9F7AEA" }}
+            transition="all 0.2s ease-in-out"
+          />
         </FormControl>
-        <Button colorScheme="brand" onClick={handleSubmit}>
+        <MotionButton
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          colorScheme="purple"
+          onClick={handleSubmit}
+          width="100%"
+        >
           Save & Continue
-        </Button>
+        </MotionButton>
       </VStack>
-    </Box>
+    </MotionBox>
   );
 };
 

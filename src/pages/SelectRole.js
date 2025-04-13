@@ -10,8 +10,36 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebaseConfig";
-import { doc, getDoc, updateDoc, serverTimestamp, setDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
+import { motion } from "framer-motion";
 
+// Framer Motion components
+const MotionBox = motion(Box);
+const MotionButton = motion(Button);
+const MotionStack = motion(Stack);
+
+const containerVariants = {
+  hidden: { opacity: 0, scale: 0.95 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+const buttonVariants = {
+  hover: { scale: 1.05, y: -2 },
+  tap: { scale: 0.95 },
+};
 
 const SelectRole = () => {
   const navigate = useNavigate();
@@ -51,13 +79,11 @@ const SelectRole = () => {
           return;
         }
 
-        // Update role if it hasn't been set
         await updateDoc(userRef, {
           role,
           updatedAt: serverTimestamp(),
         });
       } else {
-        // Edge case: doc doesn't exist
         await setDoc(userRef, {
           uid: user.uid,
           email: user.email,
@@ -95,28 +121,50 @@ const SelectRole = () => {
       bg={bg}
       px={6}
     >
-      <Box textAlign="center" p={10} borderRadius="xl" bg="white" boxShadow="lg">
+      <MotionBox
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        textAlign="center"
+        p={10}
+        borderRadius="xl"
+        bg="white"
+        boxShadow="2xl"
+      >
         <Heading mb={4}>Choose Your Role</Heading>
         <Text fontSize="lg" mb={8}>
           Select whether you want to ride or drive
         </Text>
-        <Stack direction={{ base: "column", md: "row" }} spacing={6} justify="center">
-          <Button
+        <MotionStack
+          direction={{ base: "column", md: "row" }}
+          spacing={6}
+          justify="center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+        >
+          <MotionButton
+            variants={buttonVariants}
+            whileHover="hover"
+            whileTap="tap"
             colorScheme="teal"
             size="lg"
             onClick={() => handleRoleSelection("rider")}
           >
             I'm a Rider
-          </Button>
-          <Button
+          </MotionButton>
+          <MotionButton
+            variants={buttonVariants}
+            whileHover="hover"
+            whileTap="tap"
             colorScheme="purple"
             size="lg"
             onClick={() => handleRoleSelection("driver")}
           >
             I'm a Driver
-          </Button>
-        </Stack>
-      </Box>
+          </MotionButton>
+        </MotionStack>
+      </MotionBox>
     </Box>
   );
 };

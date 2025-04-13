@@ -12,11 +12,36 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { FaLock, FaLeaf, FaCarSide } from "react-icons/fa";
+import { motion } from "framer-motion";
+
+const MotionBox = motion(Box);
 
 const About = () => {
   const navigate = useNavigate();
   const bgColor = useColorModeValue("gray.50", "gray.800");
   const cardBg = useColorModeValue("white", "gray.700");
+
+  const coreValues = [
+    {
+      icon: FaLock,
+      title: "Safety First",
+      description:
+        "Ensuring a secure and trusted carpooling experience for everyone.",
+      color: "brand.400",
+    },
+    {
+      icon: FaLeaf,
+      title: "Sustainability",
+      description: "Promoting an eco-friendly and shared commuting culture.",
+      color: "green.400",
+    },
+    {
+      icon: FaCarSide,
+      title: "Convenience",
+      description: "Making travel more accessible and hassle-free.",
+      color: "teal.400",
+    },
+  ];
 
   return (
     <Box bg={bgColor} px={{ base: 6, md: 10 }} py={10}>
@@ -59,41 +84,22 @@ const About = () => {
           Our Core Values
         </Heading>
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
-          {[ 
-            {
-              icon: FaLock,
-              title: "Safety First",
-              description: "Ensuring a secure and trusted carpooling experience for everyone.",
-              color: "brand.400",
-            },
-            {
-              icon: FaLeaf,
-              title: "Sustainability",
-              description: "Promoting an eco-friendly and shared commuting culture.",
-              color: "green.400",
-            },
-            {
-              icon: FaCarSide,
-              title: "Convenience",
-              description: "Making travel more accessible and hassle-free.",
-              color: "teal.400",
-            },
-          ].map((item, idx) => (
-            <Box
+          {coreValues.map((item, idx) => (
+            <MotionBox
               key={idx}
               p={6}
               bg={cardBg}
               borderRadius="xl"
               shadow="md"
-              transition="all 0.3s"
-              _hover={{ transform: "translateY(-5px)", shadow: "lg" }}
+              whileHover={{ y: -5, boxShadow: "lg" }}
+              transition={{ duration: 0.3 }}
             >
               <Icon as={item.icon} boxSize={10} color={item.color} mb={4} />
               <Heading fontSize="lg" mb={2}>
                 {item.title}
               </Heading>
               <Text color="gray.600">{item.description}</Text>
-            </Box>
+            </MotionBox>
           ))}
         </SimpleGrid>
       </Box>
@@ -104,6 +110,14 @@ const About = () => {
         <Text fontSize="md" color="gray.600">
           Join our growing community of eco-friendly commuters.
         </Text>
+        <Button
+          size="lg"
+          colorScheme="brand"
+          px={8}
+          onClick={() => navigate("/select-role")}
+        >
+          Get Started
+        </Button>
       </VStack>
     </Box>
   );

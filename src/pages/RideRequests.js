@@ -20,6 +20,26 @@ import {
   where,
   getDoc,
 } from "firebase/firestore";
+import { motion, AnimatePresence } from "framer-motion";
+
+// Motion-enhanced components
+const MotionBox = motion(Box);
+const MotionButton = motion(Button);
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 },
+};
 
 const RideRequests = () => {
   const [rideRequests, setRideRequests] = useState([]);
@@ -115,44 +135,70 @@ const RideRequests = () => {
         Available Ride Requests
       </Heading>
 
-      <VStack spacing={4}>
-        {rideRequests.length === 0 ? (
-          <Text>No ride requests available.</Text>
-        ) : (
-          rideRequests.map((ride) => (
-            <Box
-              key={ride.id}
-              p={4}
-              w="100%"
-              borderWidth={1}
-              borderRadius="lg"
-              boxShadow="md"
-              bg="white"
-            >
-              <Stack spacing={2}>
-                <Text><strong>Pickup:</strong> {ride.pickupLocation}</Text>
-                <Text><strong>Dropoff:</strong> {ride.dropoffLocation}</Text>
-                <Text><strong>Date:</strong> {ride.date}</Text>
-                <Text><strong>Time:</strong> {ride.time}</Text>
-                {ride.riderName && (
-                  <Text><strong>Requested by:</strong> {ride.riderName}</Text>
-                )}
-                {ride.riderEmail && (
-                  <Text><strong>Email:</strong> {ride.riderEmail}</Text>
-                )}
-                <Divider />
-                <Button
-                  mt={2}
-                  colorScheme="green"
-                  onClick={() => handleAccept(ride.id)}
-                >
-                  Accept Ride
-                </Button>
-              </Stack>
-            </Box>
-          ))
-        )}
-      </VStack>
+      <MotionBox
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        as={VStack}
+        spacing={4}
+        align="stretch"
+      >
+        <AnimatePresence>
+          {rideRequests.length === 0 ? (
+            <Text textAlign="center">No ride requests available.</Text>
+          ) : (
+            rideRequests.map((ride) => (
+              <MotionBox
+                key={ride.id}
+                variants={cardVariants}
+                initial="hidden"
+                animate="show"
+                exit={{ opacity: 0, y: -20 }}
+                p={4}
+                borderWidth={1}
+                borderRadius="lg"
+                boxShadow="md"
+                bg="white"
+              >
+                <Stack spacing={2}>
+                  <Text>
+                    <strong>Pickup:</strong> {ride.pickupLocation}
+                  </Text>
+                  <Text>
+                    <strong>Dropoff:</strong> {ride.dropoffLocation}
+                  </Text>
+                  <Text>
+                    <strong>Date:</strong> {ride.date}
+                  </Text>
+                  <Text>
+                    <strong>Time:</strong> {ride.time}
+                  </Text>
+                  {ride.riderName && (
+                    <Text>
+                      <strong>Requested by:</strong> {ride.riderName}
+                    </Text>
+                  )}
+                  {ride.riderEmail && (
+                    <Text>
+                      <strong>Email:</strong> {ride.riderEmail}
+                    </Text>
+                  )}
+                  <Divider />
+                  <MotionButton
+                    mt={2}
+                    colorScheme="green"
+                    onClick={() => handleAccept(ride.id)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Accept Ride
+                  </MotionButton>
+                </Stack>
+              </MotionBox>
+            ))
+          )}
+        </AnimatePresence>
+      </MotionBox>
     </Box>
   );
 };

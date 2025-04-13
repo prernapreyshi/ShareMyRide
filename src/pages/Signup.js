@@ -19,6 +19,13 @@ import {
 } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 import { auth, db } from "../firebase/firebaseConfig";
+import { motion } from "framer-motion";
+
+// Framer Motion
+const MotionBox = motion(Box);
+const MotionInput = motion(Input);
+const MotionButton = motion(Button);
+const MotionVStack = motion(VStack);
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -30,16 +37,13 @@ const Signup = () => {
   const toast = useToast();
   const navigate = useNavigate();
 
-  // ✅ Setup reCAPTCHA (only in production)
   const setUpRecaptcha = () => {
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
         "recaptcha-container",
         {
           size: "invisible",
-          callback: () => {
-            console.log("reCAPTCHA verified");
-          },
+          callback: () => console.log("reCAPTCHA verified"),
         },
         auth
       );
@@ -66,9 +70,7 @@ const Signup = () => {
 
       if (window.location.hostname === "localhost") {
         auth.settings.appVerificationDisabledForTesting = true;
-        console.log("🧪 Test mode: Using mock reCAPTCHA");
 
-        // ✅ Mock RecaptchaVerifier with required methods
         class MockRecaptchaVerifier {
           type = "recaptcha";
           verify() {
@@ -98,7 +100,6 @@ const Signup = () => {
         isClosable: true,
       });
     } catch (error) {
-      console.error("OTP sending error:", error);
       toast({
         title: "OTP Failed",
         description: error.message,
@@ -143,7 +144,6 @@ const Signup = () => {
 
       navigate("/select-role");
     } catch (err) {
-      console.error("Signup error:", err);
       toast({
         title: "Verification Failed",
         description: err.message,
@@ -164,59 +164,91 @@ const Signup = () => {
   }, []);
 
   return (
-    <Box
+    <MotionBox
       maxW="md"
       mx="auto"
       mt={20}
       p={8}
-      bg={useColorModeValue("white", "gray.700")}
       borderRadius="2xl"
+      bg={useColorModeValue("white", "gray.700")}
       boxShadow="2xl"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
     >
-      <Heading mb={6} textAlign="center" color="brand.400">
+      <Heading mb={6} textAlign="center" color="blue.400">
         Create Account
       </Heading>
-      <VStack spacing={4}>
+      <MotionVStack spacing={4}>
         <FormControl isRequired>
           <FormLabel>Email</FormLabel>
-          <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <MotionInput
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            whileFocus={{ scale: 1.03 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          />
         </FormControl>
 
         <FormControl isRequired>
           <FormLabel>Password</FormLabel>
-          <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <MotionInput
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            whileFocus={{ scale: 1.03 }}
+          />
         </FormControl>
 
         <FormControl isRequired>
           <FormLabel>Mobile Number</FormLabel>
-          <Input
+          <MotionInput
             type="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="+91XXXXXXXXXX"
+            whileFocus={{ scale: 1.03 }}
           />
         </FormControl>
 
         {confirmationResult && (
           <FormControl isRequired>
             <FormLabel>Enter OTP</FormLabel>
-            <Input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} />
+            <MotionInput
+              type="text"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              whileFocus={{ scale: 1.03 }}
+            />
           </FormControl>
         )}
 
         {!confirmationResult ? (
-          <Button colorScheme="blue" width="full" onClick={sendOtp} isDisabled={!phone}>
+          <MotionButton
+            colorScheme="blue"
+            width="full"
+            onClick={sendOtp}
+            isDisabled={!phone}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             Send OTP
-          </Button>
+          </MotionButton>
         ) : (
-          <Button
+          <MotionButton
             colorScheme="green"
             width="full"
             onClick={verifyOtpAndSignup}
             isDisabled={!otp || !email || !password}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             Verify OTP & Sign Up
-          </Button>
+          </MotionButton>
         )}
 
         <Text fontSize="sm" textAlign="center" mt={2}>
@@ -225,10 +257,10 @@ const Signup = () => {
             Sign In
           </Link>
         </Text>
-      </VStack>
+      </MotionVStack>
 
       <div id="recaptcha-container"></div>
-    </Box>
+    </MotionBox>
   );
 };
 

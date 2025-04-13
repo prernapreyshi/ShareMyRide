@@ -26,8 +26,6 @@ import {
   Timestamp
 } from "firebase/firestore";
 import { db, auth } from "../firebase/firebaseConfig";
-import DashboardLayout from "../Components/DashboardLayout";
-import sendNotification from "../api/sendNotification";
 
 const LOCATIONIQ_API_KEY = "pk.02a082d9834c35563c931be2cf773633";
 
@@ -86,14 +84,7 @@ const DriverDashboard = () => {
         driverId: auth.currentUser.uid,
       });
 
-      await sendNotification({
-        userId: ride.riderId,
-        title: "Ride Accepted",
-        message: "Your ride has been accepted by a driver.",
-        rideId,
-        type: "ride",
-      });
-
+      // You may want to update/sendNotification if implemented
       toast({ title: "Ride Accepted", status: "success", duration: 3000 });
     } catch (error) {
       toast({
@@ -114,19 +105,10 @@ const DriverDashboard = () => {
     try {
       const rideRef = doc(db, "rideRequests", rejectRideId);
       const rideSnap = await getDoc(rideRef);
-      const ride = rideSnap.data();
 
       await updateDoc(rideRef, {
         status: "rejected",
         driverId: auth.currentUser.uid,
-      });
-
-      await sendNotification({
-        userId: ride.riderId,
-        title: "Ride Rejected",
-        message: "Your ride request was rejected by the driver.",
-        rideId: rejectRideId,
-        type: "ride",
       });
 
       toast({ title: "Ride Rejected", status: "info", duration: 3000 });
@@ -146,26 +128,7 @@ const DriverDashboard = () => {
   const handleCompleteRide = async (rideId) => {
     try {
       const rideRef = doc(db, "rideRequests", rideId);
-      const rideSnap = await getDoc(rideRef);
-      const ride = rideSnap.data();
-
       await updateDoc(rideRef, { status: "completed" });
-
-      await sendNotification({
-        userId: ride.riderId,
-        title: "Ride Completed",
-        message: "Your ride has been marked as completed.",
-        rideId,
-        type: "completed",
-      });
-
-      await sendNotification({
-        userId: ride.driverId,
-        title: "Ride Completed",
-        message: "You have successfully completed the ride.",
-        rideId,
-        type: "completed",
-      });
 
       toast({ title: "Ride marked as completed", status: "success", duration: 3000 });
     } catch (error) {
@@ -183,104 +146,89 @@ const DriverDashboard = () => {
       ? timestamp.toDate().toLocaleString()
       : timestamp?.toString() ?? "N/A";
 
-  return (
-    <DashboardLayout userInfo={userInfo}>
-      {loading ? (
-        <Box textAlign="center" mt={10}>
-          <Spinner size="xl" />
-        </Box>
-      ) : (
-        <>
-          <Heading mb={4} color="brand.400">
-            Pending Ride Requests
-          </Heading>
-          <VStack spacing={4} align="stretch" mb={10}>
-            {rideRequests.map((ride) => (
-              <Box key={ride.id} p={4} borderWidth={1} borderRadius="md" boxShadow="md">
-                <Text><strong>From:</strong> {ride.pickupLocation}</Text>
-                <Text><strong>To:</strong> {ride.dropoffLocation}</Text>
-                <Text><strong>Date:</strong> {formatTimestamp(ride.date)}</Text>
-                <Text><strong>Time:</strong> {formatTimestamp(ride.time)}</Text>
+  return loading ? (
+    <Box textAlign="center" mt={10}>
+      <Spinner size="xl" />
+    </Box>
+  ) : (
+    <>
+      <Heading mb={4} color="brand.400">
+        Pending Ride Requests
+      </Heading>
+      <VStack spacing={4} align="stretch" mb={10}>
+        {rideRequests.map((ride) => (
+          <Box key={ride.id} p={4} borderWidth={1} borderRadius="md" boxShadow="md">
+            <Text><strong>From:</strong> {ride.pickupLocation}</Text>
+            <Text><strong>To:</strong> {ride.dropoffLocation}</Text>
+            <Text><strong>Date:</strong> {formatTimestamp(ride.date)}</Text>
+            <Text><strong>Time:</strong> {formatTimestamp(ride.time)}</Text>
 
-                {ride.pickupCoords && ride.dropoffCoords && (
-                  <Image
-                    src={getStaticMapUrl(ride.pickupCoords, ride.dropoffCoords)}
-                    alt="Map Preview"
-                    mt={3}
-                    borderRadius="md"
-                  />
-                )}
+            {ride.pickupCoords && ride.dropoffCoords && (
+              <Image
+                src={getStaticMapUrl(ride.pickupCoords, ride.dropoffCoords)}
+                alt="Map Preview"
+                mt={3}
+                borderRadius="md"
+              />
+            )}
 
-                <HStack mt={3}>
-                  <Button colorScheme="green" onClick={() => handleAcceptRide(ride.id)}>
-                    Accept
-                  </Button>
-                  <Button variant="outline" colorScheme="red" onClick={() => confirmRejectRide(ride.id)}>
-                    Reject
-                  </Button>
-                </HStack>
-              </Box>
-            ))}
-          </VStack>
+            <HStack mt={3}>
+              <Button colorScheme="green" onClick={() => handleAcceptRide(ride.id)}>
+                Accept
+              </Button>
+              <Button variant="outline" colorScheme="red" onClick={() => confirmRejectRide(ride.id)}>
+                Reject
+              </Button>
+            </HStack>
+          </Box>
+        ))}
+      </VStack>
 
-          <Heading mb={4} color="brand.400">
-            Your Accepted Rides
-          </Heading>
-          <VStack spacing={4} align="stretch">
-            {acceptedRides.map((ride) => (
-              <Box key={ride.id} p={4} borderWidth={1} borderRadius="md" boxShadow="md">
-                <Text><strong>From:</strong> {ride.pickupLocation}</Text>
-                <Text><strong>To:</strong> {ride.dropoffLocation}</Text>
-                <Text><strong>Date:</strong> {formatTimestamp(ride.date)}</Text>
-                <Text><strong>Time:</strong> {formatTimestamp(ride.time)}</Text>
+      <Heading mb={4} color="brand.400">
+        Your Accepted Rides
+      </Heading>
+      <VStack spacing={4} align="stretch">
+        {acceptedRides.map((ride) => (
+          <Box key={ride.id} p={4} borderWidth={1} borderRadius="md" boxShadow="md">
+            <Text><strong>From:</strong> {ride.pickupLocation}</Text>
+            <Text><strong>To:</strong> {ride.dropoffLocation}</Text>
+            <Text><strong>Date:</strong> {formatTimestamp(ride.date)}</Text>
+            <Text><strong>Time:</strong> {formatTimestamp(ride.time)}</Text>
 
-                {ride.pickupCoords && ride.dropoffCoords && (
-                  <Image
-                    src={getStaticMapUrl(ride.pickupCoords, ride.dropoffCoords)}
-                    alt="Map Preview"
-                    mt={3}
-                    borderRadius="md"
-                  />
-                )}
+            {ride.pickupCoords && ride.dropoffCoords && (
+              <Image
+                src={getStaticMapUrl(ride.pickupCoords, ride.dropoffCoords)}
+                alt="Map Preview"
+                mt={3}
+                borderRadius="md"
+              />
+            )}
 
-                <Button mt={3} colorScheme="purple" onClick={() => handleCompleteRide(ride.id)}>
-                  Mark as Completed
-                </Button>
-              </Box>
-            ))}
-          </VStack>
-        </>
-      )}
+            <Button mt={3} colorScheme="purple" onClick={() => handleCompleteRide(ride.id)}>
+              Mark as Completed
+            </Button>
+          </Box>
+        ))}
+      </VStack>
 
       {/* Confirmation Dialog for Rejection */}
-      <AlertDialog
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-        isCentered
-      >
+      <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose} isCentered>
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Reject Ride
             </AlertDialogHeader>
-
             <AlertDialogBody>
               Are you sure you want to reject this ride request?
             </AlertDialogBody>
-
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button colorScheme="red" onClick={handleRejectRide} ml={3}>
-                Reject
-              </Button>
+              <Button ref={cancelRef} onClick={onClose}>Cancel</Button>
+              <Button colorScheme="red" onClick={handleRejectRide} ml={3}>Reject</Button>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
-    </DashboardLayout>
+    </>
   );
 };
 

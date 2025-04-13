@@ -1,4 +1,3 @@
-// src/Components/RideCard.js
 import React from "react";
 import {
   Box,
@@ -11,6 +10,12 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+
+// Motion-enabled components
+const MotionBox = motion(Box);
+const MotionButton = motion(Button);
+const MotionImage = motion(Image);
 
 const RideCard = ({ ride }) => {
   const navigate = useNavigate();
@@ -29,13 +34,16 @@ const RideCard = ({ ride }) => {
     : null;
 
   return (
-    <Box
+    <MotionBox
       p={5}
       shadow="md"
       borderWidth="1px"
       borderRadius="md"
       bg={cardBg}
       mb={4}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <Heading fontSize="xl" mb={2}>
         {pickupLocation} → {dropoffLocation}
@@ -48,11 +56,14 @@ const RideCard = ({ ride }) => {
       </VStack>
 
       {mapUrl ? (
-        <Image
+        <MotionImage
           src={mapUrl}
           alt="Ride map preview"
           borderRadius="md"
           mb={4}
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
         />
       ) : (
         <Text fontSize="sm" color="gray.500" mb={4}>
@@ -61,14 +72,16 @@ const RideCard = ({ ride }) => {
       )}
 
       <Flex justify="flex-end">
-        <Button
+        <MotionButton
           colorScheme="brand"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => navigate(`/ride-details/${ride.id}`)}
         >
           View Details
-        </Button>
+        </MotionButton>
       </Flex>
-    </Box>
+    </MotionBox>
   );
 };
 
