@@ -1,34 +1,44 @@
-// src/styles/theme.js
 import { extendTheme } from "@chakra-ui/react";
 
-const theme = extendTheme({
+const customTheme = extendTheme({
   colors: {
     brand: {
-      50: "#E6FFFA",
-      100: "#B2F5EA",
-      200: "#81E6D9",
-      300: "#4FD1C5",
-      400: "#38B2AC",
-      500: "#319795", // ✅ Matches the 'Get Started' button
-      600: "#2C7A7B",
-      700: "#285E61",
-      800: "#234E52",
-      900: "#1D4044",
+      50: "#e6f4f2",
+      100: "#c2e2dd",
+      200: "#9dd1c8",
+      300: "#79bfb3",
+      400: "#2fa293", // primary color (matches "Order Ride" button in image)
+      500: "#248277", // hover state
+      600: "#1a6158",
+      700: "#10413a",
+      800: "#08231e",
+      900: "#02100c",
     },
   },
   components: {
     Button: {
+      baseStyle: {
+        fontWeight: "bold",
+        borderRadius: "xl",
+      },
       variants: {
-        solid: (props) => ({
-          bg: "brand.500",
+        solid: {
+          bg: "brand.400",
           color: "white",
           _hover: {
-            bg: "brand.600",
+            bg: "brand.500",
           },
-        }),
+        },
+        outline: {
+          borderColor: "brand.400",
+          color: "brand.400",
+          _hover: {
+            bg: "brand.50",
+          },
+        },
       },
     },
   },
 });
 
-export default theme;
+export default customTheme;
