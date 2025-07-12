@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "/ShareMyRide/static/js/main.17831735.js",
+    "static/media/homeTheme.svg": "/ShareMyRide/static/media/homeTheme.c1d4667b9210ca42a0a4ffb971181e35.svg",
+    "static/media/impact.svg": "/ShareMyRide/static/media/impact.1bb7f7b4d29ec9816841726bf45b073f.svg",
+    "static/media/share.svg": "/ShareMyRide/static/media/share.db3657796f1ab8a8cfb6d78f81486f58.svg",
+    "static/media/steps.svg": "/ShareMyRide/static/media/steps.14e2e3a522391f40b7099c3f3ee7110c.svg",
+    "static/media/motorBike.svg": "/ShareMyRide/static/media/motorBike.a1b075469cf0f30db63f48c3131e2c00.svg",
+    "static/media/city.svg": "/ShareMyRide/static/media/city.dcc90e21ea9dfa7394d660966e4cd538.svg",
+    "static/media/womensafety.svg": "/ShareMyRide/static/media/womensafety.3d539c560cb56efb7350f1e957e7896d.svg",
+    "static/media/phone.svg": "/ShareMyRide/static/media/phone.1195c3e5e873454cfbaa6175ba14e935.svg",
+    "static/media/carRide.svg": "/ShareMyRide/static/media/carRide.8cf4617a050066b0fdfbe29b9b2ed1a7.svg",
+    "static/media/SMS.svg": "/ShareMyRide/static/media/SMS.e4454d39515be171bd555da7fcc003c2.svg",
+    "index.html": "/ShareMyRide/index.html",
+    "main.17831735.js.map": "/ShareMyRide/static/js/main.17831735.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.17831735.js"
+  ]
+}
